@@ -1,6 +1,5 @@
 {
   "name": "imagen",
   "version": "1.0.0",
-  "description": "Generate images using Google Gemini API",
-  "skills": ["../SKILL.md"]
+  "description": "Generate images using Google Gemini's AI image generation model. Create UI mockups, icons, illustrations, diagrams, and more."
 }
