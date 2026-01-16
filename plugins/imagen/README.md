@@ -1,6 +1,6 @@
-# gemini-imagen
+# imagen
 
-Simple Python script for image generation using Google Gemini API.
+Image generation skill using Google Gemini API.
 
 Based on [sanjay3290/ai-skills/imagen](https://github.com/sanjay3290/ai-skills).
 
@@ -9,6 +9,8 @@ Based on [sanjay3290/ai-skills/imagen](https://github.com/sanjay3290/ai-skills).
 - Zero dependencies (Python standard library only)
 - Detects actual image format via magic bytes
 - Auto-corrects file extension to match real format
+- SVG conversion with vtracer (optional: `pip install vtracer pillow`)
+- Background removal with rembg (optional: `pip install rembg`)
 
 ## Usage
 

@@ -57,6 +57,8 @@ python3 $SKILL_DIR/scripts/generate_with_preset.py \
 | `--input, -i` | Input image(s) for image-to-image (can use multiple times) |
 | `--size` | Output size: `512`, `1K` (default), or `2K` |
 | `--remove-bg, -r` | Remove background (requires: `pip install rembg`) |
+| `--output-svg, -s` | Convert to SVG (requires: `pip install vtracer`) |
+| `--svg-mode` | SVG color mode: `color` (default) or `binary` for B/W |
 | `--list, -l` | List available presets |
 | `--show-prompt` | Show full prompt without generating |
 
@@ -127,6 +129,45 @@ python3 $SKILL_DIR/scripts/generate_with_preset.py \
   "app icon" \
   icon.png
 ```
+
+### Generate SVG logo/icon
+
+```bash
+# Color SVG (full color vectorization)
+python3 $SKILL_DIR/scripts/generate_with_preset.py \
+  --output-svg \
+  "minimalist app logo" \
+  logo.svg
+
+# Binary SVG for line art (faster, cleaner)
+python3 $SKILL_DIR/scripts/generate_with_preset.py \
+  --output-svg --svg-mode binary \
+  "simple line icon" \
+  icon.svg
+
+# Combine with background removal for best results
+python3 $SKILL_DIR/scripts/generate_with_preset.py \
+  --remove-bg --output-svg \
+  "logo on transparent background" \
+  logo.svg
+```
+
+### Convert existing image to SVG
+
+```bash
+python3 $SKILL_DIR/scripts/convert_to_svg.py input.png output.svg
+
+# Binary mode for line art
+python3 $SKILL_DIR/scripts/convert_to_svg.py --mode binary icon.png icon.svg
+
+# Logo preset (quantizes colors for cleaner output)
+python3 $SKILL_DIR/scripts/convert_to_svg.py --preset logo input.png output.svg
+
+# Project-specific palette for best results
+python3 $SKILL_DIR/scripts/convert_to_svg.py --palette damemano logo.png logo.svg
+```
+
+**Tip:** For logos with gradients or anti-aliasing, use `--preset logo` or `--palette` to quantize colors first. This produces much cleaner SVGs.
 
 ## Parallel Generation
 

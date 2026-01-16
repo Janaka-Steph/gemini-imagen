@@ -1,4 +1,4 @@
-# gemini-imagen Reference
+# imagen Reference
 
 ## Setup
 
@@ -64,6 +64,24 @@ python3 $SKILL_DIR/scripts/generate_with_preset.py [options] <prompt> [output_pa
 | `--input, -i` | No | - | Input image(s) for image-to-image |
 | `--size` | No | `1K` | Image size (512, 1K, or 2K) |
 | `--remove-bg` | No | - | Remove background (requires rembg) |
+| `--output-svg, -s` | No | - | Convert output to SVG (requires vtracer) |
+| `--svg-mode` | No | `color` | SVG color mode: `color` or `binary` |
+
+### SVG Conversion Script
+
+```bash
+python3 $SKILL_DIR/scripts/convert_to_svg.py [options] <input> <output>
+```
+
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `input` | Yes | - | Input image file (PNG, JPG, etc.) |
+| `output` | Yes | - | Output SVG file path |
+| `--mode, -m` | No | `color` | Color mode: `color` or `binary` for B/W |
+| `--preset` | No | - | Preset: `logo` (quantizes colors for cleaner output) |
+| `--palette` | No | - | Color palette for quantization (e.g., `damemano`) |
+| `--filter-speckle` | No | `4` | Speckle filter size (higher = cleaner) |
+| `--color-precision` | No | `6` | Color precision 1-8 (lower = fewer colors) |
 
 ### Environment Variables
 

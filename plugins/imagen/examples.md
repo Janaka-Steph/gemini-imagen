@@ -1,4 +1,4 @@
-# gemini-imagen - Usage Examples
+# imagen - Usage Examples
 
 ## Frontend Development Scenarios
 
@@ -193,6 +193,49 @@ Claude will:
 1. Generate: python3 $SKILL_DIR/scripts/generate_with_preset.py --size 2K "Mobile app onboarding illustration, person using smartphone, abstract flowing shapes in background, modern gradient style" "./assets/images/onboarding.jpg"
 2. Add to pubspec.yaml assets
 3. Use in the onboarding widget
+```
+
+## SVG Conversion
+
+### Logo to SVG (Clean Output)
+```
+User: "Convert my logo to SVG for scalability"
+
+Claude will run:
+python3 $SKILL_DIR/scripts/convert_to_svg.py --preset logo ./logo.png ./logo.svg
+```
+
+### Logo with Project Palette
+```
+User: "Convert the DameMano logo to a clean SVG"
+
+Claude will run:
+python3 $SKILL_DIR/scripts/convert_to_svg.py --palette damemano ./logo.png ./logo.svg
+```
+
+### Extract Logo and Convert to SVG
+```
+User: "Extract the logo from this mockup and make it an SVG"
+
+Claude will run:
+1. python3 $SKILL_DIR/scripts/generate_with_preset.py --input mockup.jpg --remove-bg "Extract the logo on transparent background" logo.png
+2. python3 $SKILL_DIR/scripts/convert_to_svg.py --preset logo logo.png logo.svg
+```
+
+### Line Art to Binary SVG
+```
+User: "Convert this icon to a black and white SVG"
+
+Claude will run:
+python3 $SKILL_DIR/scripts/convert_to_svg.py --mode binary ./icon.png ./icon.svg
+```
+
+### Generate and Convert in One Step
+```
+User: "Generate a simple logo and make it an SVG"
+
+Claude will run:
+python3 $SKILL_DIR/scripts/generate_with_preset.py --remove-bg --output-svg "minimalist app logo, flat design, two colors" ./logo.svg
 ```
 
 ## Tips for Better Results

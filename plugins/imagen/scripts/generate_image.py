@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-gemini-imagen - Google Gemini Image Generation Script
+imagen - Google Gemini Image Generation Script
 
 Based on sanjay3290/ai-skills.
 Detects actual image format via magic bytes and sets correct extension.

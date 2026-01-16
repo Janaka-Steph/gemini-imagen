@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-gemini-imagen with presets - Generate images with reusable prompt templates.
+imagen with presets - Generate images with reusable prompt templates.
 
 Supports both text-to-image and image-to-image generation.
 Optional background removal with rembg.
@@ -9,7 +9,7 @@ Presets are text files containing instructions that get prepended to your prompt
 The tool searches for presets in this order:
 1. ./presets/ or ./design/presets/ (current working directory)
 2. IMAGEN_PRESETS_DIR environment variable
-3. Built-in presets (gemini-imagen/presets/)
+3. Built-in presets (imagen/presets/)
 
 Usage:
     # Text-to-image
@@ -57,6 +57,7 @@ from generate_image import (
     DEFAULT_MODEL_ID,
     DEFAULT_IMAGE_SIZE,
 )
+from convert_to_svg import convert_to_svg
 
 
 def get_preset_dirs() -> list[Path]:
@@ -215,13 +216,17 @@ Examples:
   python generate_with_preset.py --remove-bg "app icon on white" icon.png
   python generate_with_preset.py --input photo.jpg --remove-bg "extract subject" subject.png
 
+  # Convert to SVG (requires: pip install vtracer)
+  python generate_with_preset.py --output-svg "simple logo" logo.svg
+  python generate_with_preset.py --output-svg --svg-mode binary "line art icon" icon.svg
+
   # List available presets
   python generate_with_preset.py --list
 
 Preset search order:
   1. ./presets/ or ./design/presets/ (current directory)
   2. $IMAGEN_PRESETS_DIR
-  3. Built-in presets (gemini-imagen/presets/)
+  3. Built-in presets (imagen/presets/)
         """
     )
 
@@ -233,6 +238,10 @@ Preset search order:
                         help="Preset name(s) to use, comma-separated (e.g., 'creative' or 'mockup,damemano')")
     parser.add_argument("--remove-bg", "-r", action="store_true",
                         help="Remove background after generation (requires: pip install rembg)")
+    parser.add_argument("--output-svg", "-s", action="store_true",
+                        help="Convert output to SVG (requires: pip install vtracer)")
+    parser.add_argument("--svg-mode", choices=["color", "binary"], default="color",
+                        help="SVG color mode: 'color' (default) or 'binary' for B/W line art")
     parser.add_argument("--show-prompt", action="store_true",
                         help="Show the full prompt (preset + user) and exit without generating")
     parser.add_argument("--size", choices=["512", "1K", "2K"],
@@ -318,6 +327,16 @@ Preset search order:
     # Remove background if requested
     if args.remove_bg:
         final_path = remove_background(final_path, output_path)
+
+    # Convert to SVG if requested
+    if args.output_svg:
+        svg_path = convert_to_svg(
+            input_path=final_path,
+            output_path=output_path.with_suffix(".svg"),
+            colormode=args.svg_mode,
+        )
+        # Keep the raster as intermediate, report SVG as main output
+        final_path = svg_path
 
     # Verify and report
     if final_path.exists() and final_path.stat().st_size > 0:
