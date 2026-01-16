@@ -184,6 +184,22 @@ When using `--output-svg`, the tool automatically:
 
 This ensures clean, optimized SVGs on the first generation. Override with `--svg-palette` if needed.
 
+## Correcting/Fixing Mockups
+
+When asked to "correct" or "fix" an existing mockup:
+- **Use `--input`** to pass the original image
+- **Keep everything else intact** — Only change the specific elements mentioned in the prompt
+- The goal is to fix identified issues while preserving the overall design, layout, and style
+- Do NOT regenerate from scratch with a completely different design
+
+```bash
+python3 $SKILL_DIR/scripts/generate_with_preset.py \
+  --input original-mockup.jpg \
+  --preset mockup \
+  "Fix the navbar: change from 4 items to 3 items (Buscar, +, Yo)" \
+  original-mockup-fixed.jpg
+```
+
 ## Parallel Generation
 
 When generating multiple images, run commands in parallel for efficiency:
