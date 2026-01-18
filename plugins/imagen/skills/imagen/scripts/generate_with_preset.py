@@ -3,7 +3,7 @@
 imagen with presets - Generate images with reusable prompt templates.
 
 Supports both text-to-image and image-to-image generation.
-Optional background removal with rembg.
+Optional background removal with rembg or luminosity-based method.
 
 Presets are text files containing instructions that get prepended to your prompt.
 The tool searches for presets in this order:
@@ -23,8 +23,11 @@ Usage:
     # Multiple reference images
     python generate_with_preset.py -i navbar.png -i menu.png "combine these designs" output.jpg
 
-    # Remove background (requires: pip install rembg)
+    # Remove background with rembg (ML-based, for complex backgrounds)
     python generate_with_preset.py --remove-bg "logo icon" logo.png
+
+    # Remove white background (luminosity-based, preserves sparkles/light elements)
+    python generate_with_preset.py --remove-white-bg "icon with sparkles" icon.png
 
     # List presets
     python generate_with_preset.py --list
@@ -59,6 +62,7 @@ from generate_image import (
     DEFAULT_IMAGE_SIZE,
 )
 from convert_to_svg import convert_to_svg
+from remove_white_bg import remove_white_background
 
 
 def get_preset_dirs() -> list[Path]:
@@ -238,7 +242,9 @@ Preset search order:
     parser.add_argument("--preset", "-p",
                         help="Preset name(s) to use, comma-separated (e.g., 'creative' or 'mobile-ui,damemano')")
     parser.add_argument("--remove-bg", "-r", action="store_true",
-                        help="Remove background after generation (requires: pip install rembg)")
+                        help="Remove background with rembg (ML-based, for complex backgrounds)")
+    parser.add_argument("--remove-white-bg", "-w", action="store_true",
+                        help="Remove white background (luminosity-based, preserves sparkles/light elements)")
     parser.add_argument("--output-svg", "-s", action="store_true",
                         help="Convert output to SVG (requires: pip install vtracer)")
     parser.add_argument("--svg-mode", choices=["color", "binary"], default="color",
@@ -331,6 +337,10 @@ Preset search order:
     if args.remove_bg:
         # Use final_path (which has unique ID) as base for PNG output
         final_path = remove_background(final_path, final_path)
+    elif args.remove_white_bg:
+        # Use luminosity-based removal (better for generated images with white bg)
+        print("Removing white background...")
+        final_path = remove_white_background(final_path, final_path.with_suffix('.png'))
 
     # Convert to SVG if requested
     if args.output_svg:

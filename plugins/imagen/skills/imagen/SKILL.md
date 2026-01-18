@@ -56,7 +56,8 @@ python3 $SKILL_DIR/scripts/generate_with_preset.py \
 | `--preset, -p` | Preset name(s), comma-separated (e.g., `mobile-ui,damemano`) |
 | `--input, -i` | Input image(s) for image-to-image (can use multiple times) |
 | `--size` | Output size: `512`, `1K` (default), or `2K` |
-| `--remove-bg, -r` | Remove background (requires: `pip install rembg`) |
+| `--remove-bg, -r` | Remove background with rembg (ML-based, for complex backgrounds) |
+| `--remove-white-bg, -w` | Remove white background (luminosity-based, preserves sparkles) |
 | `--output-svg, -s` | Convert to SVG (requires: `pip install vtracer`) |
 | `--svg-mode` | SVG color mode: `color` (default) or `binary` for B/W |
 | `--svg-palette` | SVG color palette for quantization (auto-detected from `--preset`) |
@@ -136,11 +137,35 @@ python3 $SKILL_DIR/scripts/generate_with_preset.py \
 
 ### Remove background
 
+Two methods available:
+
 ```bash
+# Method 1: rembg (ML-based) - best for complex backgrounds, photos
 python3 $SKILL_DIR/scripts/generate_with_preset.py \
   --remove-bg \
   "app icon" \
   icon.png
+
+# Method 2: White background removal (luminosity-based)
+# Best for generated images with white/near-white backgrounds
+# Preserves sparkles, bubbles, light effects that rembg might remove
+python3 $SKILL_DIR/scripts/generate_with_preset.py \
+  --remove-white-bg \
+  "cute icon with sparkles" \
+  icon.png
+```
+
+**When to use which:**
+- `--remove-bg`: Complex backgrounds, photos, need subject detection
+- `--remove-white-bg`: Generated images with white backgrounds, preserves light elements
+
+### Remove white background from existing image
+
+```bash
+python3 $SKILL_DIR/scripts/remove_white_bg.py input.jpg output.png
+
+# Adjust threshold for off-white backgrounds
+python3 $SKILL_DIR/scripts/remove_white_bg.py --threshold 240 input.jpg output.png
 ```
 
 ### Generate SVG logo/icon

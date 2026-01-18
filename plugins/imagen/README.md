@@ -11,6 +11,7 @@ Based on [sanjay3290/ai-skills/imagen](https://github.com/sanjay3290/ai-skills).
 - Auto-corrects file extension to match real format
 - SVG conversion with vtracer (optional: `pip install vtracer pillow`)
 - Background removal with rembg (optional: `pip install rembg`)
+- White background removal (luminosity-based, preserves sparkles/light elements)
 - **Smart SVG optimization**: Auto-detects project palette from `--preset` for clean SVGs (~25KB vs ~400KB)
 
 ## Usage

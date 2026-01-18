@@ -63,7 +63,8 @@ python3 $SKILL_DIR/scripts/generate_with_preset.py [options] <prompt> [output_pa
 | `--preset, -p` | No | - | Preset name(s), comma-separated |
 | `--input, -i` | No | - | Input image(s) for image-to-image |
 | `--size` | No | `1K` | Image size (512, 1K, or 2K) |
-| `--remove-bg` | No | - | Remove background (requires rembg) |
+| `--remove-bg` | No | - | Remove background with rembg (ML-based) |
+| `--remove-white-bg` | No | - | Remove white background (luminosity-based, preserves sparkles) |
 | `--output-svg, -s` | No | - | Convert output to SVG (requires vtracer) |
 | `--svg-mode` | No | `color` | SVG color mode: `color` or `binary` |
 | `--svg-palette` | No | auto | SVG color palette for quantization (auto-detected from `--preset`) |
